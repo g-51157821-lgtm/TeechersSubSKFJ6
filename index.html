@@ -1,0 +1,520 @@
+<!doctype html><html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Sistem Guru Ganti sekolah"><title>Sistem Guru Ganti SK Felda Jengka 6</title><link rel="icon" href="favicon.ico" sizes="any"><link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0b5d1e">
+<style>
+:root{--bg:#eef3f7;--card:#fff;--ink:#18232d;--muted:#64727d;--accent:#1261a0;--good:#198754;--bad:#c62828;--line:#dbe3e9}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif} header{background:#163d5a;color:#fff;padding:20px} header h1{margin:0 0 5px;font-size:25px} header p{margin:0;opacity:.9} main{max-width:1200px;margin:auto;padding:18px} .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px} .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 3px 12px #0000000b} label{display:block;font-weight:700;margin-bottom:6px} select,input{width:100%;padding:10px;border:1px solid #c8d2da;border-radius:8px;font-size:15px;background:#fff} button{border:0;border-radius:8px;padding:11px 14px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer} button.secondary{background:#64727d} button.good{background:var(--good)} button.danger{background:var(--bad)} .actions{display:flex;gap:8px;flex-wrap:wrap} .actions button{flex:1;min-width:180px} .checkrow{display:flex;align-items:center;gap:8px;margin-top:9px} .checkrow input{width:auto} .pill{display:inline-block;border-radius:20px;padding:5px 9px;background:#e8f1f7;margin:2px;font-size:13px} table{width:100%;border-collapse:collapse} th,td{border-bottom:1px solid var(--line);padding:9px;text-align:left;vertical-align:top} th{background:#f2f6f8} .status{font-weight:700} .ok{color:var(--good)} .warn{color:#b26a00} .bad{color:var(--bad)} .result{border-left:5px solid var(--accent);background:#f7fafc;border-radius:8px;padding:12px;margin:9px 0} .candidate{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px;border-bottom:1px solid var(--line)} .candidate:last-child{border-bottom:0} .score{font-weight:700} .small{font-size:13px;color:var(--muted)} .hidden{display:none} .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px} .stat{background:#f7fafc;border:1px solid var(--line);border-radius:10px;padding:12px} .stat b{display:block;font-size:23px;margin-top:4px} .tablewrap{overflow:auto}
+
+.replacement-select{width:100%;padding:9px 10px;border:1px solid #cfd8dc;border-radius:8px;background:#fff;font-size:14px}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="absence-reason-style">
+.absence-reason-row{display:flex;align-items:center;gap:10px;margin:7px 0;flex-wrap:wrap}
+.absence-reason-name{font-weight:600;min-width:260px}
+.absence-reason-select{padding:8px 10px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;min-width:220px}
+@media(max-width:700px){.absence-reason-name{min-width:100%}.app-brand{align-items:flex-start}.app-logo{width:54px;height:54px}.app-header h1{font-size:20px}}
+@media print{#absenceReasons{display:none!important}}
+</style>
+
+<style id="final-print-css">
+#guruGantiPrintTemplate{display:none}
+@media print{
+  @page{size:A4 landscape;margin:8mm}
+  html,body{
+    margin:0!important;padding:0!important;width:100%!important;
+    background:#fff!important;
+  }
+  body>*{display:none!important}
+  body>#guruGantiPrintTemplate{
+    display:block!important;
+    position:static!important;
+    width:100%!important;
+    height:auto!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  #guruGantiPrintTemplate *{visibility:visible!important}
+  .replacement-print-page{
+    display:block!important;
+    width:100%!important;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#111;
+  }
+  #guruGantiPrintToolbar,.print-toolbar{display:none!important}
+  .rp-head{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 3px}.rp-logo{width:58px;height:58px;object-fit:contain}.rp-head-text{text-align:center}.rp-school{font-size:11px;font-weight:700;margin:0}.rp-school-sub{font-size:10px;font-weight:600;margin:1px 0 0}.rp-title{text-align:center;font-size:21px;font-weight:700;margin:2px 0 2px}
+  .rp-date{text-align:center;font-size:11px;margin:0 0 2px}
+  .rp-note{text-align:center;font-size:9px;margin:0 0 7px}
+  .rp-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    font-size:9px;
+  }
+  .rp-table th,.rp-table td{
+    border:1px solid #555;
+    padding:5px 4px;
+    vertical-align:middle;
+    overflow-wrap:anywhere;
+  }
+  .rp-table th{text-align:center;font-weight:700}
+  .rp-table th:nth-child(1){width:21%}
+  .rp-table th:nth-child(2){width:9%}
+  .rp-table th:nth-child(3){width:8%}
+  .rp-table th:nth-child(4){width:14%}
+  .rp-table th:nth-child(5){width:18%}
+  .rp-table th:nth-child(6){width:20%}
+  .rp-table th:nth-child(7){width:10%}
+  .rp-table tr{break-inside:avoid;page-break-inside:avoid}
+}
+</style>
+</head><body><header class="app-header"><div class="app-brand"><img src="logo-sekolah.png" alt="Logo Sekolah Kebangsaan Felda Jengka 6" class="app-logo"><div><h1>Sistem Guru Ganti — SK Felda Jengka 6</h1><p>Pengagihan ganti berasaskan beban harian</p></div></div></header><main>
+<section class="card"><h2>1. Kehadiran & Jana Guru Ganti</h2><div class="grid"><div><label>Tarikh</label><input type="date" id="date"></div><div><label>HARI</label><select id="day" style="text-transform:uppercase"><option>Isnin</option><option>Selasa</option><option>Rabu</option><option>Khamis</option><option>Jumaat</option></select></div><div><label>Guru tidak hadir</label><select id="absent"></select></div></div><div class="small" style="margin-top:9px;padding:9px;border:1px solid #dbe3ef;border-radius:8px;background:#f8fafc"><b>KOKURIKULUM:</b> Tidak memerlukan guru ganti.</div><div class="actions" style="margin-top:12px"><button onclick="addAbsent()">Tambah guru tidak hadir</button><button class="good" onclick="generate()">Jana guru ganti</button><button class="secondary" onclick="resetDay()">Reset</button></div><div id="absentList" style="margin-top:10px"></div></section>
+<section class="card" id="preschoolCard">
+<h2>Guru Ganti Prasekolah</h2>
+<p class="small">Khas untuk <b>PN RAHAYU BINTI MD YUSUFF</b> apabila perlu keluar sekolah atau menghadiri tugasan rasmi seperti bengkel, kursus atau taklimat.</p>
+<div class="grid">
+  <div><label>Guru Prasekolah</label><input type="text" value="PN RAHAYU BINTI MD YUSUFF" readonly></div>
+  <div><label>Alasan</label><select id="preschoolReason"></select></div>
+</div>
+<label style="display:block;margin-top:12px;font-weight:700">Pilih waktu yang perlu diganti</label>
+<div id="preschoolSlots" class="checkrow" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-top:8px"></div>
+<div class="actions" style="margin-top:12px"><button class="good" type="button" onclick="generatePreschool()">Jana guru ganti Prasekolah</button><button class="secondary" type="button" onclick="clearPreschool()">Kosongkan pilihan</button></div>
+<div id="preschoolMessage" class="small" style="margin-top:10px"></div>
+</section>
+<section class="card" id="keberadaanCard">
+<h2>Analisis Keberadaan Guru</h2>
+<p class="small">Analisis berdasarkan tarikh/hari yang dipilih. Guru Prasekolah <b>PN RAHAYU BINTI MD YUSUFF</b> turut dikira dalam jumlah keseluruhan.</p>
+<div id="keberadaanStats" class="stats"></div>
+<div id="keberadaanTable" class="tablewrap" style="margin-top:12px"></div>
+</section>
+<section class="card hidden" id="summaryCard">
+<div id="absenceReasons" class="no-print" style="margin:12px 0;padding:12px;border:1px solid #dbe3ef;border-radius:10px;background:#f8fafc;">
+  <div style="font-weight:700;margin-bottom:8px;">Alasan guru tidak hadir</div>
+  <div id="absenceReasonRows"></div>
+</div>
+<h2>2. Ringkasan</h2><div id="summary" class="stats"></div></section>
+<section class="card hidden" id="resultCard"><h2>3. Cadangan guru ganti</h2>
+<div id="netlifyPrintBar" class="no-print" style="display:none;margin:14px 0;padding:12px;border:1px solid #d9dee7;border-radius:12px;background:#f8fafc">
+  <button type="button" id="netlifyPrintBtn" style="padding:10px 16px;margin-right:8px;cursor:pointer">🖨️ Cetak</button>
+  <button type="button" id="netlifyPdfBtn" style="padding:10px 16px;cursor:pointer">💾 Simpan PDF</button>
+</div>
+
+<div id="guruGantiPrintToolbar" class="no-print" style="display:none; margin:16px 0; padding:12px; border:1px solid #d7e0ea; border-radius:12px; background:#f7fafc;">
+  <button type="button" id="guruGantiPrint" style="padding:11px 18px; margin-right:8px; border:0; border-radius:8px; cursor:pointer; font-weight:700;">🖨️ CETAK</button>
+  <button type="button" id="guruGantiPDF" style="padding:11px 18px; border:0; border-radius:8px; cursor:pointer; font-weight:700;">💾 SIMPAN PDF</button>
+</div>
+<div id="results"></div></section>
+<section class="card"><h2>4. Beban guru pada hari dipilih</h2><div class="tablewrap"><table><thead><tr><th>Guru</th><th>Kelas sendiri</th><th>Ganti diberi</th><th>Jumlah beban</th><th>Status</th></tr></thead><tbody id="loadTable"></tbody></table></div></section>
+<section class="card" id="jadualRujukan"><h2>5. Jadual Waktu Guru 2026 — Rujukan</h2><p class="small"><b>Mulai November 2026.</b> Jadual ini ialah dokumen rujukan terkini yang digunakan untuk logik guru ganti dalam sistem.</p><div class="actions" style="margin-bottom:10px"><a href="JADUAL WAKTU GURU SKJ6 2026(V1).pdf" target="_blank" rel="noopener" style="display:inline-block;padding:11px 14px;background:#1261a0;color:#fff;border-radius:8px;text-decoration:none;font-weight:700">📄 Buka jadual penuh</a></div><iframe src="JADUAL WAKTU GURU SKJ6 2026(V1).pdf#page=1" title="Jadual Waktu Guru SKJ6 2026" style="width:100%;height:650px;border:1px solid #dbe3e9;border-radius:10px;background:#fff"></iframe></section>
+<section class="card"><h2>6. Peraturan sistem</h2><ul><li><b>PN ROHAYATI BINTI MAT YUSOP @ ISMAIL</b> ialah Guru Besar.</li><li>Guru Besar tidak boleh menggantikan guru lain.</li><li>Guru lain boleh menggantikan Guru Besar apabila beliau tidak hadir.</li><li>Guru yang sedang mengajar pada slot berkenaan tidak boleh dipilih.</li><li>Guru yang sudah menerima ganti diberi penalti supaya agihan lebih seimbang.</li><li>Guru yang tidak hadir tidak boleh menjadi calon.</li><li>PH (Perhimpunan Rasmi) tidak dijana sebagai kelas ganti secara automatik.</li><li>KOKURIKULUM tidak dijana sebagai tugasan guru ganti kerana aktiviti KOKO mempunyai guru yang telah dilantik bersama.</li><li><b>PN RAHAYU BINTI MD YUSUFF</b> ialah guru Prasekolah dan penggantiannya dibuat melalui modul khas Prasekolah.</li></ul><p class="small">Data jadual guru telah dikemas kini berdasarkan JADUAL WAKTU GURU 2026 yang berkuat kuasa MULAI NOVEMBER 2026. Jadual asal turut disediakan dalam modul rujukan untuk semakan guru.</p></section>
+</main>
+<script>
+const DATA={"PN ROHAYATI BINTI MAT YUSOP @ ISMAIL":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":4,"end":4,"subject":"PSV","class":"2 AL - FARABI","type":"class"},{"day":"Isnin","start":5,"end":5,"subject":"PSV","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":3,"end":3,"subject":"PSV","class":"3 AL - BUKHARI","type":"class"},{"day":"Selasa","start":4,"end":4,"subject":"PSV","class":"3 AL - BUKHARI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":2,"end":2,"subject":"PSV","class":"1 AL - BIRUNI","type":"class"},{"day":"Jumaat","start":3,"end":3,"subject":"PSV","class":"1 AL - BIRUNI","type":"class"}],"EN MOHD AIDIL SHAHWAL BIN MAT ZUKI":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":7,"end":7,"subject":"BM","class":"4 IBNU KHALDUM","type":"class"},{"day":"Selasa","start":5,"end":5,"subject":"PJ","class":"3 AL - BUKHARI","type":"class"},{"day":"Selasa","start":9,"end":9,"subject":"BM","class":"4 IBNU KHALDUM","type":"class"},{"day":"Selasa","start":10,"end":10,"subject":"BM","class":"4 IBNU KHALDUM","type":"class"},{"day":"Rabu","start":2,"end":2,"subject":"SEJ","class":"6 IBNU KATHIR","type":"class"},{"day":"Rabu","start":3,"end":3,"subject":"SEJ","class":"6 IBNU KATHIR","type":"class"},{"day":"Rabu","start":9,"end":9,"subject":"BM","class":"4 IBNU KHALDUM","type":"class"},{"day":"Rabu","start":10,"end":10,"subject":"BM","class":"4 IBNU KHALDUM","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":3,"end":3,"subject":"PJ","class":"3 AL - BUKHARI","type":"class"},{"day":"Khamis","start":7,"end":7,"subject":"BM","class":"4 IBNU KHALDUM","type":"class"},{"day":"Khamis","start":8,"end":8,"subject":"BM","class":"4 IBNU KHALDUM","type":"class"},{"day":"Khamis","start":10,"end":10,"subject":"PK","class":"3 AL - BUKHARI","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":3,"end":3,"subject":"BM","class":"4 IBNU KHALDUM","type":"class"},{"day":"Jumaat","start":4,"end":4,"subject":"BM","class":"4 IBNU KHALDUM","type":"class"}],"EN KALAMUDINSAH BIN ABDUL KARIM":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":7,"end":7,"subject":"MT","class":"3 AL - BUKHARI","type":"class"},{"day":"Isnin","start":8,"end":8,"subject":"MT","class":"3 AL - BUKHARI","type":"class"},{"day":"Isnin","start":10,"end":10,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Isnin","start":11,"end":11,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":3,"end":3,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":4,"end":4,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":7,"end":7,"subject":"MT","class":"3 AL - BUKHARI","type":"class"},{"day":"Selasa","start":8,"end":8,"subject":"MT","class":"3 AL - BUKHARI","type":"class"},{"day":"Rabu","start":4,"end":4,"subject":"MT","class":"3 AL - BUKHARI","type":"class"},{"day":"Rabu","start":5,"end":5,"subject":"MT","class":"3 AL - BUKHARI","type":"class"},{"day":"Rabu","start":9,"end":9,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":10,"end":10,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"}],"EN MOHD AZLAN BIN RUS":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":2,"end":2,"subject":"BI","class":"1 AL - BIRUNI","type":"class"},{"day":"Isnin","start":3,"end":3,"subject":"BI","class":"1 AL - BIRUNI","type":"class"},{"day":"Selasa","start":3,"end":3,"subject":"PJ","class":"4 IBNU KHALDUM","type":"class"},{"day":"Selasa","start":4,"end":4,"subject":"BI","class":"1 AL - BIRUNI","type":"class"},{"day":"Selasa","start":5,"end":5,"subject":"BI","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":3,"end":3,"subject":"BI","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":4,"end":4,"subject":"BI","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":1,"end":1,"subject":"PJ","class":"4 IBNU KHALDUM","type":"class"},{"day":"Khamis","start":2,"end":2,"subject":"BI","class":"1 AL - BIRUNI","type":"class"},{"day":"Khamis","start":3,"end":3,"subject":"BI","class":"1 AL - BIRUNI","type":"class"},{"day":"Khamis","start":11,"end":11,"subject":"PK","class":"4 IBNU KHALDUM","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":1,"end":1,"subject":"BI","class":"1 AL - BIRUNI","type":"class"}],"EN DAUD BIN YUSOFF":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":2,"end":2,"subject":"PSV","class":"6 IBNU KATHIR","type":"class"},{"day":"Isnin","start":3,"end":3,"subject":"PSV","class":"6 IBNU KATHIR","type":"class"},{"day":"Isnin","start":8,"end":8,"subject":"SNS","class":"5 IBNU JAUZI","type":"class"},{"day":"Isnin","start":9,"end":9,"subject":"SNS","class":"5 IBNU JAUZI","type":"class"},{"day":"Selasa","start":1,"end":1,"subject":"SNS","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":2,"end":2,"subject":"SNS","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":3,"end":3,"subject":"PJ","class":"1 AL - BIRUNI","type":"class"},{"day":"Selasa","start":5,"end":5,"subject":"PJ","class":"5 IBNU JAUZI","type":"class"},{"day":"Selasa","start":9,"end":9,"subject":"SNS","class":"3 AL - BUKHARI","type":"class"},{"day":"Selasa","start":11,"end":11,"subject":"RBT","class":"4 IBNU KHALDUM","type":"class"},{"day":"Selasa","start":12,"end":12,"subject":"RBT","class":"4 IBNU KHALDUM","type":"class"},{"day":"Rabu","start":1,"end":1,"subject":"PMZ","class":"4 IBNU KHALDUM","type":"class"},{"day":"Rabu","start":5,"end":5,"subject":"PK","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":9,"end":9,"subject":"SEJ","class":"5 IBNU JAUZI","type":"class"},{"day":"Rabu","start":10,"end":10,"subject":"SEJ","class":"5 IBNU JAUZI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":1,"end":1,"subject":"PJ","class":"1 AL - BIRUNI","type":"class"},{"day":"Khamis","start":2,"end":2,"subject":"SNS","class":"2 AL - FARABI","type":"class"},{"day":"Khamis","start":3,"end":3,"subject":"PJ","class":"5 IBNU JAUZI","type":"class"},{"day":"Khamis","start":5,"end":5,"subject":"PMZ","class":"2 AL - FARABI","type":"class"},{"day":"Khamis","start":7,"end":7,"subject":"SNS","class":"5 IBNU JAUZI","type":"class"},{"day":"Khamis","start":8,"end":8,"subject":"SNS","class":"5 IBNU JAUZI","type":"class"},{"day":"Khamis","start":11,"end":11,"subject":"PK","class":"5 IBNU JAUZI","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":4,"end":4,"subject":"SNS","class":"3 AL - BUKHARI","type":"class"},{"day":"Jumaat","start":5,"end":5,"subject":"SNS","class":"3 AL - BUKHARI","type":"class"}],"EN MUHAMMAD ZAHIDI BIN AHMAD ZAKI":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":4,"end":4,"subject":"BM","class":"3 AL - BUKHARI","type":"class"},{"day":"Isnin","start":5,"end":5,"subject":"BM","class":"3 AL - BUKHARI","type":"class"},{"day":"Isnin","start":7,"end":7,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Isnin","start":8,"end":8,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Isnin","start":11,"end":11,"subject":"RBT","class":"5 IBNU JAUZI","type":"class"},{"day":"Isnin","start":12,"end":12,"subject":"RBT","class":"5 IBNU JAUZI","type":"class"},{"day":"Selasa","start":1,"end":1,"subject":"BM","class":"3 AL - BUKHARI","type":"class"},{"day":"Selasa","start":2,"end":2,"subject":"BM","class":"3 AL - BUKHARI","type":"class"},{"day":"Selasa","start":3,"end":3,"subject":"PJ","class":"6 IBNU KATHIR","type":"class"},{"day":"Selasa","start":9,"end":9,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":10,"end":10,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":4,"end":4,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":5,"end":5,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":9,"end":9,"subject":"BM","class":"3 AL - BUKHARI","type":"class"},{"day":"Rabu","start":10,"end":10,"subject":"BM","class":"3 AL - BUKHARI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":3,"end":3,"subject":"PJ","class":"6 IBNU KATHIR","type":"class"},{"day":"Khamis","start":4,"end":4,"subject":"BM","class":"3 AL - BUKHARI","type":"class"},{"day":"Khamis","start":5,"end":5,"subject":"BM","class":"3 AL - BUKHARI","type":"class"},{"day":"Khamis","start":8,"end":8,"subject":"PK","class":"6 IBNU KATHIR","type":"class"},{"day":"Khamis","start":9,"end":9,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Khamis","start":10,"end":10,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":1,"end":1,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Jumaat","start":2,"end":2,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Jumaat","start":3,"end":3,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Jumaat","start":7,"end":7,"subject":"BM","class":"3 AL - BUKHARI","type":"class"},{"day":"Jumaat","start":8,"end":8,"subject":"BM","class":"3 AL - BUKHARI","type":"class"},{"day":"Jumaat","start":9,"end":9,"subject":"BM","class":"3 AL - BUKHARI","type":"class"}],"PN SURIYATI BT MOHAMAD DOHIR":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":7,"end":7,"subject":"BA","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":1,"end":1,"subject":"PMZ","class":"3 AL - BUKHARI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":4,"end":4,"subject":"BA","class":"1 AL - BIRUNI","type":"class"},{"day":"Khamis","start":5,"end":5,"subject":"BA","class":"1 AL - BIRUNI","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"}],"PN NOR AZMA BINTI JAAFAR":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":2,"end":2,"subject":"BA","class":"4 IBNU KHALDUM","type":"class"},{"day":"Isnin","start":3,"end":3,"subject":"BA","class":"4 IBNU KHALDUM","type":"class"},{"day":"Isnin","start":7,"end":7,"subject":"PMZ","class":"5 IBNU JAUZI","type":"class"},{"day":"Selasa","start":3,"end":3,"subject":"BA","class":"5 IBNU JAUZI","type":"class"},{"day":"Selasa","start":4,"end":4,"subject":"BA","class":"5 IBNU JAUZI","type":"class"},{"day":"Rabu","start":3,"end":3,"subject":"BA","class":"5 IBNU JAUZI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":5,"end":5,"subject":"BA","class":"4 IBNU KHALDUM","type":"class"}],"PN NUR'AQILAH BINTI NOOR SABRI":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":4,"end":4,"subject":"PSV","class":"5 IBNU JAUZI","type":"class"},{"day":"Isnin","start":5,"end":5,"subject":"PSV","class":"5 IBNU JAUZI","type":"class"},{"day":"Isnin","start":10,"end":10,"subject":"BI","class":"3 AL - BUKHARI","type":"class"},{"day":"Isnin","start":11,"end":11,"subject":"BI","class":"3 AL - BUKHARI","type":"class"},{"day":"Selasa","start":10,"end":10,"subject":"BI","class":"3 AL - BUKHARI","type":"class"},{"day":"Selasa","start":11,"end":11,"subject":"BI","class":"3 AL - BUKHARI","type":"class"},{"day":"Rabu","start":1,"end":1,"subject":"BA","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":2,"end":2,"subject":"BA","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":7,"end":7,"subject":"BI","class":"3 AL - BUKHARI","type":"class"},{"day":"Rabu","start":8,"end":8,"subject":"BI","class":"3 AL - BUKHARI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":7,"end":7,"subject":"BI","class":"3 AL - BUKHARI","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":2,"end":2,"subject":"BI","class":"3 AL - BUKHARI","type":"class"},{"day":"Jumaat","start":3,"end":3,"subject":"BI","class":"3 AL - BUKHARI","type":"class"},{"day":"Jumaat","start":9,"end":9,"subject":"BA","class":"2 AL - FARABI","type":"class"}],"PN MARINI ROHAYU BINTI MOHD YURAU":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":10,"end":10,"subject":"MT","class":"4 IBNU KHALDUM","type":"class"},{"day":"Isnin","start":11,"end":11,"subject":"MT","class":"4 IBNU KHALDUM","type":"class"},{"day":"Selasa","start":7,"end":7,"subject":"MT","class":"4 IBNU KHALDUM","type":"class"},{"day":"Selasa","start":8,"end":8,"subject":"MT","class":"4 IBNU KHALDUM","type":"class"},{"day":"Selasa","start":10,"end":10,"subject":"MT","class":"1 AL - BIRUNI","type":"class"},{"day":"Selasa","start":11,"end":11,"subject":"MT","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":7,"end":7,"subject":"MT","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":8,"end":8,"subject":"MT","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":9,"end":9,"subject":"MT","class":"1 AL - BIRUNI","type":"class"},{"day":"Khamis","start":10,"end":10,"subject":"MT","class":"1 AL - BIRUNI","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":1,"end":1,"subject":"MT","class":"4 IBNU KHALDUM","type":"class"},{"day":"Jumaat","start":2,"end":2,"subject":"MT","class":"4 IBNU KHALDUM","type":"class"}],"PN YUSNIZA BINTI YUSOFF":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":2,"end":2,"subject":"BI","class":"2 AL - FARABI","type":"class"},{"day":"Isnin","start":3,"end":3,"subject":"BI","class":"2 AL - FARABI","type":"class"},{"day":"Isnin","start":8,"end":8,"subject":"SEJ","class":"4 IBNU KHALDUM","type":"class"},{"day":"Isnin","start":9,"end":9,"subject":"SEJ","class":"4 IBNU KHALDUM","type":"class"},{"day":"Isnin","start":11,"end":11,"subject":"MT","class":"6 IBNU KATHIR","type":"class"},{"day":"Isnin","start":12,"end":12,"subject":"MT","class":"6 IBNU KATHIR","type":"class"},{"day":"Selasa","start":9,"end":9,"subject":"MT","class":"5 IBNU JAUZI","type":"class"},{"day":"Selasa","start":10,"end":10,"subject":"MT","class":"5 IBNU JAUZI","type":"class"},{"day":"Selasa","start":11,"end":11,"subject":"BI","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":1,"end":1,"subject":"MT","class":"5 IBNU JAUZI","type":"class"},{"day":"Rabu","start":2,"end":2,"subject":"MT","class":"5 IBNU JAUZI","type":"class"},{"day":"Rabu","start":4,"end":4,"subject":"MT","class":"6 IBNU KATHIR","type":"class"},{"day":"Rabu","start":5,"end":5,"subject":"MT","class":"6 IBNU KATHIR","type":"class"},{"day":"Rabu","start":7,"end":7,"subject":"BI","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":8,"end":8,"subject":"BI","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":10,"end":10,"subject":"PMZ","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":1,"end":1,"subject":"MT","class":"5 IBNU JAUZI","type":"class"},{"day":"Khamis","start":2,"end":2,"subject":"MT","class":"5 IBNU JAUZI","type":"class"},{"day":"Khamis","start":7,"end":7,"subject":"BI","class":"2 AL - FARABI","type":"class"},{"day":"Khamis","start":8,"end":8,"subject":"BI","class":"2 AL - FARABI","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":1,"end":1,"subject":"MT","class":"6 IBNU KATHIR","type":"class"},{"day":"Jumaat","start":2,"end":2,"subject":"MT","class":"6 IBNU KATHIR","type":"class"},{"day":"Jumaat","start":4,"end":4,"subject":"BI","class":"2 AL - FARABI","type":"class"},{"day":"Jumaat","start":5,"end":5,"subject":"BI","class":"2 AL - FARABI","type":"class"}],"PN SITI SURAYA BINTI MOHD TAHA":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":4,"end":4,"subject":"BM","class":"6 IBNU KATHIR","type":"class"},{"day":"Isnin","start":5,"end":5,"subject":"BM","class":"6 IBNU KATHIR","type":"class"},{"day":"Isnin","start":8,"end":8,"subject":"BM","class":"1 AL - BIRUNI","type":"class"},{"day":"Isnin","start":9,"end":9,"subject":"BM","class":"1 AL - BIRUNI","type":"class"},{"day":"Selasa","start":1,"end":1,"subject":"BM","class":"6 IBNU KATHIR","type":"class"},{"day":"Selasa","start":2,"end":2,"subject":"BM","class":"6 IBNU KATHIR","type":"class"},{"day":"Selasa","start":5,"end":5,"subject":"PJ","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":7,"end":7,"subject":"BM","class":"1 AL - BIRUNI","type":"class"},{"day":"Selasa","start":8,"end":8,"subject":"BM","class":"1 AL - BIRUNI","type":"class"},{"day":"Selasa","start":9,"end":9,"subject":"BM","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":1,"end":1,"subject":"BM","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":2,"end":2,"subject":"BM","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":3,"end":3,"subject":"PK","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":9,"end":9,"subject":"BM","class":"6 IBNU KATHIR","type":"class"},{"day":"Rabu","start":10,"end":10,"subject":"BM","class":"6 IBNU KATHIR","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":1,"end":1,"subject":"PJ","class":"2 AL - FARABI","type":"class"},{"day":"Khamis","start":4,"end":4,"subject":"BM","class":"6 IBNU KATHIR","type":"class"},{"day":"Khamis","start":5,"end":5,"subject":"BM","class":"6 IBNU KATHIR","type":"class"},{"day":"Khamis","start":7,"end":7,"subject":"BM","class":"1 AL - BIRUNI","type":"class"},{"day":"Khamis","start":8,"end":8,"subject":"BM","class":"1 AL - BIRUNI","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":3,"end":3,"subject":"RBT","class":"6 IBNU KATHIR","type":"class"},{"day":"Jumaat","start":4,"end":4,"subject":"RBT","class":"6 IBNU KATHIR","type":"class"},{"day":"Jumaat","start":5,"end":5,"subject":"BM","class":"6 IBNU KATHIR","type":"class"},{"day":"Jumaat","start":7,"end":7,"subject":"BM","class":"1 AL - BIRUNI","type":"class"},{"day":"Jumaat","start":8,"end":8,"subject":"BM","class":"1 AL - BIRUNI","type":"class"}],"CIK NURUL SYAFIKAH BINTI ABDULLAH":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":7,"end":7,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Isnin","start":8,"end":8,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Isnin","start":10,"end":10,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Isnin","start":11,"end":11,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Isnin","start":7,"end":7,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Isnin","start":8,"end":8,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Isnin","start":10,"end":10,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Isnin","start":11,"end":11,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Selasa","start":3,"end":3,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":4,"end":4,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":9,"end":9,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":10,"end":10,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Selasa","start":3,"end":3,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Selasa","start":4,"end":4,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Selasa","start":9,"end":9,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Selasa","start":10,"end":10,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Rabu","start":4,"end":4,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":5,"end":5,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":9,"end":9,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":10,"end":10,"subject":"MT","class":"2 AL - FARABI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Rabu","start":4,"end":4,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Rabu","start":5,"end":5,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Rabu","start":9,"end":9,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Rabu","start":10,"end":10,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Khamis","start":9,"end":9,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Khamis","start":10,"end":10,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":9,"end":9,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Khamis","start":10,"end":10,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Jumaat","start":1,"end":1,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Jumaat","start":2,"end":2,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Jumaat","start":3,"end":3,"subject":"BM","class":"2 AL - FARABI","type":"class"},{"day":"Jumaat","start":1,"end":1,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Jumaat","start":2,"end":2,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"},{"day":"Jumaat","start":3,"end":3,"subject":"PEMULIHAN KHAS","class":"PEMULIHAN KHAS","type":"busy"}],"CIK SITI AISHAH BINTI ABDULLAH SAIDI":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":4,"end":4,"subject":"BI","class":"4 IBNU KHALDUM","type":"class"},{"day":"Isnin","start":5,"end":5,"subject":"BI","class":"4 IBNU KHALDUM","type":"class"},{"day":"Isnin","start":7,"end":7,"subject":"BI","class":"6 IBNU KATHIR","type":"class"},{"day":"Isnin","start":8,"end":8,"subject":"BI","class":"6 IBNU KATHIR","type":"class"},{"day":"Isnin","start":10,"end":10,"subject":"BI","class":"5 IBNU JAUZI","type":"class"},{"day":"Selasa","start":1,"end":1,"subject":"BI","class":"4 IBNU KHALDUM","type":"class"},{"day":"Selasa","start":2,"end":2,"subject":"BI","class":"4 IBNU KHALDUM","type":"class"},{"day":"Selasa","start":4,"end":4,"subject":"BI","class":"6 IBNU KATHIR","type":"class"},{"day":"Selasa","start":5,"end":5,"subject":"BI","class":"6 IBNU KATHIR","type":"class"},{"day":"Selasa","start":7,"end":7,"subject":"BI","class":"5 IBNU JAUZI","type":"class"},{"day":"Selasa","start":8,"end":8,"subject":"BI","class":"5 IBNU JAUZI","type":"class"},{"day":"Rabu","start":2,"end":2,"subject":"BI","class":"4 IBNU KHALDUM","type":"class"},{"day":"Rabu","start":3,"end":3,"subject":"BI","class":"4 IBNU KHALDUM","type":"class"},{"day":"Rabu","start":7,"end":7,"subject":"BI","class":"5 IBNU JAUZI","type":"class"},{"day":"Rabu","start":8,"end":8,"subject":"BI","class":"5 IBNU JAUZI","type":"class"},{"day":"Rabu","start":11,"end":11,"subject":"BI","class":"6 IBNU KATHIR","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":1,"end":1,"subject":"BI","class":"6 IBNU KATHIR","type":"class"},{"day":"Khamis","start":2,"end":2,"subject":"BI","class":"6 IBNU KATHIR","type":"class"},{"day":"Khamis","start":4,"end":4,"subject":"BI","class":"5 IBNU JAUZI","type":"class"},{"day":"Khamis","start":5,"end":5,"subject":"BI","class":"5 IBNU JAUZI","type":"class"},{"day":"Khamis","start":9,"end":9,"subject":"BI","class":"4 IBNU KHALDUM","type":"class"},{"day":"Khamis","start":10,"end":10,"subject":"BI","class":"4 IBNU KHALDUM","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":1,"end":1,"subject":"BI","class":"5 IBNU JAUZI","type":"class"},{"day":"Jumaat","start":2,"end":2,"subject":"BI","class":"5 IBNU JAUZI","type":"class"},{"day":"Jumaat","start":7,"end":7,"subject":"BI","class":"6 IBNU KATHIR","type":"class"},{"day":"Jumaat","start":8,"end":8,"subject":"BI","class":"6 IBNU KATHIR","type":"class"},{"day":"Jumaat","start":9,"end":9,"subject":"BI","class":"4 IBNU KHALDUM","type":"class"}],"PN NOOR ASYIKIN BINTI ISMAIL":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":2,"end":2,"subject":"BM","class":"5 IBNU JAUZI","type":"class"},{"day":"Isnin","start":3,"end":3,"subject":"BM","class":"5 IBNU JAUZI","type":"class"},{"day":"Isnin","start":9,"end":9,"subject":"SNS","class":"6 IBNU KATHIR","type":"class"},{"day":"Isnin","start":10,"end":10,"subject":"SNS","class":"6 IBNU KATHIR","type":"class"},{"day":"Selasa","start":1,"end":1,"subject":"SNS","class":"1 AL - BIRUNI","type":"class"},{"day":"Selasa","start":2,"end":2,"subject":"SNS","class":"1 AL - BIRUNI","type":"class"},{"day":"Selasa","start":7,"end":7,"subject":"SNS","class":"6 IBNU KATHIR","type":"class"},{"day":"Selasa","start":8,"end":8,"subject":"SNS","class":"6 IBNU KATHIR","type":"class"},{"day":"Selasa","start":11,"end":11,"subject":"BM","class":"5 IBNU JAUZI","type":"class"},{"day":"Selasa","start":12,"end":12,"subject":"BM","class":"5 IBNU JAUZI","type":"class"},{"day":"Rabu","start":7,"end":7,"subject":"SNS","class":"4 IBNU KHALDUM","type":"class"},{"day":"Rabu","start":8,"end":8,"subject":"SNS","class":"4 IBNU KHALDUM","type":"class"},{"day":"Rabu","start":9,"end":9,"subject":"SNS","class":"1 AL - BIRUNI","type":"class"},{"day":"Rabu","start":11,"end":11,"subject":"BM","class":"5 IBNU JAUZI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":2,"end":2,"subject":"SNS","class":"4 IBNU KHALDUM","type":"class"},{"day":"Khamis","start":3,"end":3,"subject":"SNS","class":"4 IBNU KHALDUM","type":"class"},{"day":"Khamis","start":9,"end":9,"subject":"BM","class":"5 IBNU JAUZI","type":"class"},{"day":"Khamis","start":10,"end":10,"subject":"BM","class":"5 IBNU JAUZI","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Jumaat","start":7,"end":7,"subject":"BM","class":"5 IBNU JAUZI","type":"class"},{"day":"Jumaat","start":8,"end":8,"subject":"BM","class":"5 IBNU JAUZI","type":"class"}],"PN ZAHIDA BINTI ZAKARIA":[{"day":"Isnin","start":1,"end":1,"subject":"PH","class":"","type":"ph"},{"day":"Isnin","start":2,"end":2,"subject":"BA","class":"3 AL - BUKHARI","type":"class"},{"day":"Isnin","start":3,"end":3,"subject":"BA","class":"3 AL - BUKHARI","type":"class"},{"day":"Selasa","start":9,"end":9,"subject":"BA","class":"6 IBNU KATHIR","type":"class"},{"day":"Selasa","start":10,"end":10,"subject":"BA","class":"6 IBNU KATHIR","type":"class"},{"day":"Rabu","start":1,"end":1,"subject":"PMZ","class":"6 IBNU KATHIR","type":"class"},{"day":"Rabu","start":11,"end":11,"subject":"BA","class":"3 AL - BUKHARI","type":"class"},{"day":"Rabu","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"},{"day":"Khamis","start":4,"end":4,"subject":"PSV","class":"4 IBNU KHALDUM","type":"class"},{"day":"Khamis","start":5,"end":5,"subject":"PSV","class":"4 IBNU KHALDUM","type":"class"},{"day":"Khamis","start":11,"end":11,"subject":"BA","class":"6 IBNU KATHIR","type":"class"},{"day":"Khamis","start":12,"end":12,"subject":"KOKO","class":"","type":"koko"}]}; const NAMES=["EN MOHD AIDIL SHAHWAL BIN MAT ZUKI", "PN ROHAYATI BINTI MAT YUSOP @ ISMAIL", "EN KALAMUDINSAH BIN ABDUL KARIM", "EN DAUD BIN YUSOFF", "EN MUHAMMAD ZAHIDI BIN AHMAD ZAKI", "PN SURIYATI BT MOHAMAD DOHIR", "PN SITI SURAYA BINTI MOHD TAHA", "PN MARINI ROHAYU BINTI MOHD YURAU", "PN YUSNIZA BINTI YUSOFF", "PN NUR'AQILAH BINTI NOOR SABRI", "CIK SITI AISHAH BINTI ABDULLAH SAIDI", "PN NOOR ASYIKIN BINTI ISMAIL", "PN ZAHIDA BINTI ZAKARIA", "CIK NURUL SYAFIKAH BINTI ABDULLAH", "PN NOR AZMA BINTI JAAFAR", "EN MOHD AZLAN BIN RUS"]; const PRINCIPAL='PN ROHAYATI BINTI MAT YUSOP @ ISMAIL';
+const SLOTS=[["1","7:45 - 8:15"],["2","8:15 - 8:45"],["3","8:45 - 9:15"],["4","9:15 - 9:45"],["5","9:45 - 10:15"],["6","10:15 - 10:35"],["7","10:35 - 11:05"],["8","11:05 - 11:35"],["9","11:35 - 12:05"],["10","12:05 - 12:35"],["11","12:35 - 1:05"],["12","1:35 - 2:05"]];
+let absents=[], assignments=[];
+const PRESCHOOL="PN RAHAYU BINTI MD YUSUFF";
+const ALL_PERSONNEL=[...NAMES,PRESCHOOL];
+const PRESCHOOL_MAIN_SUBSTITUTE="PN ZAHIDA BINTI ZAKARIA";
+const SCHOOL_RANGES={1:[465,495],2:[495,525],3:[525,555],4:[555,585],5:[585,615],6:[615,635],7:[635,665],8:[665,695],9:[695,725],10:[725,755],11:[755,785],12:[785,815],13:[815,845]};
+const PRESCHOOL_SCHEDULE={
+  Isnin:[['1','8:00–8:20',480,500,'PERBUALAN AWAL'],['2','8:20–8:50',500,530,'FIZIKAL'],['3','8:50–9:50',530,590,'AP'],['4','9:50–10:30',590,630,'REHAT'],['5','10:30–11:30',630,690,'PENDIDIKAN ISLAM'],['6','11:30–11:50',690,710,'AP'],['7','11:50–12:00',710,720,'PENUTUP']],
+  Selasa:[['1','8:00–8:20',480,500,'PERBUALAN AWAL'],['2','8:20–8:50',500,530,'FIZIKAL'],['3','8:50–9:20',530,560,'BM'],['4','9:20–9:50',560,590,'AP'],['5','9:50–10:30',590,630,'REHAT'],['6','10:30–11:00',630,660,'BACA BERSAMA'],['7','11:00–11:50',660,710,'MATH'],['8','11:50–12:00',710,720,'PENUTUP']],
+  Rabu:[['1','8:00–8:20',480,500,'PERBUALAN AWAL'],['2','8:20–8:50',500,530,'FIZIKAL'],['3','8:50–9:20',530,560,'BM'],['4','9:20–9:50',560,590,'AP'],['5','9:50–10:30',590,630,'REHAT'],['6','10:30–11:30',630,690,'PENDIDIKAN ISLAM'],['7','11:30–11:50',690,710,'AP'],['8','11:50–12:00',710,720,'PENUTUP']],
+  Khamis:[['1','8:00–8:20',480,500,'PERBUALAN AWAL'],['2','8:20–8:50',500,530,'FIZIKAL'],['3','8:50–9:50',530,590,'AP'],['4','9:50–10:30',590,630,'REHAT'],['5','10:30–11:00',630,660,'BM'],['6','11:00–11:50',660,710,'AP'],['7','11:50–12:00',710,720,'PENUTUP']],
+  Jumaat:[['1','8:00–8:20',480,500,'PERBUALAN AWAL'],['2','8:20–8:50',500,530,'FIZIKAL'],['3','8:50–9:50',530,590,'AP'],['4','9:50–10:30',590,630,'REHAT'],['5','10:30–11:00',630,660,'BM'],['6','11:00–11:50',660,710,'BI'],['7','11:50–12:00',710,720,'PENUTUP']]
+};
+let preschoolReason="CTR";
+const ps=document.getElementById('preschoolSlots');
+function renderPreschoolSlots(){if(!ps)return; const day=document.getElementById('day').value; const rows=PRESCHOOL_SCHEDULE[day]||[]; ps.innerHTML=rows.map(x=>{const isRest=x[4]==='REHAT';const label=document.createElement('label');label.style.cssText='display:flex;align-items:center;gap:7px;padding:8px;border:1px solid #dbe3ef;border-radius:8px;background:'+(isRest?'#f1f5f9':'#fff')+';'+(isRest?'color:#64748b;':'');label.innerHTML=`<input type="checkbox" class="preschool-slot" value="${x[0]}" ${isRest?'disabled':''}> <span><b>${x[1]}</b>${isRest?' — REHAT':''}</span>`;return label.outerHTML}).join('');}
+renderPreschoolSlots();
+const pr=document.getElementById('preschoolReason'); if(pr)pr.addEventListener('change',()=>preschoolReason=pr.value);
+function preschoolTime(day,slot){const x=(PRESCHOOL_SCHEDULE[day]||[]).find(r=>Number(r[0])===Number(slot));return x?{start:x[2],end:x[3],label:x[4],time:x[1]}:null;}
+function overlaps(aStart,aEnd,bStart,bEnd){return aStart<bEnd && bStart<aEnd;}
+function busyAtTime(t,day,start,end){return eventSlots(t,day).some(e=>{const r=SCHOOL_RANGES[e.slot];return r&&overlaps(start,end,r[0],r[1]);});}
+function assignmentTime(a){if(a.type==='prasekolah'){const p=preschoolTime(a.day,a.slot);return p?{start:p.start,end:p.end}:null;} const r=SCHOOL_RANGES[a.slot];return r?{start:r[0],end:r[1]}:null;}
+function preschoolCandidateScores(day,slot,ignoreIndex=-1){const p=preschoolTime(day,slot);if(!p)return[];return NAMES.filter(t=>!absents.includes(t)&&t!==PRINCIPAL&&!busyAtTime(t,day,p.start,p.end)&&!assignments.some((a,idx)=>{if(idx===ignoreIndex||a.day!==day||a.substitute!==t)return false;const q=assignmentTime(a);return q&&overlaps(p.start,p.end,q.start,q.end);})).map(t=>{const own=ownCount(t,day),given=assignments.filter((a,idx)=>idx!==ignoreIndex&&a.day===day&&a.substitute===t).length;let score=100-own*5-given*25;if(t===PRESCHOOL_MAIN_SUBSTITUTE)score+=200;if(given===0)score+=12;if(own<=4)score+=8;return{teacher:t,own,given,score}}).sort((a,b)=>b.score-a.score||a.own-b.own||a.given-b.given);}
+function generatePreschool(){
+  const slots=[...document.querySelectorAll('.preschool-slot:checked')].map(x=>Number(x.value)).filter(slot=>{const p=preschoolTime(document.getElementById('day').value,slot);return p&&p.label!=='REHAT';});
+  const day=document.getElementById('day').value;
+  if(!slots.length){document.getElementById('preschoolMessage').textContent='Sila pilih sekurang-kurangnya satu waktu.';return;}
+  assignments=assignments.filter(a=>a.type!=='prasekolah');
+  slots.forEach(slot=>{
+    const cs=preschoolCandidateScores(day,slot);
+    const best=cs[0];
+    assignments.push({day,slot,absent:PRESCHOOL,subject:'',class:'',type:'prasekolah',reason:preschoolReason,substitute:best?best.teacher:'TIADA PENGGANTIAN'});
+  });
+  renderResults();renderLoad();
+  document.getElementById('resultCard').classList.remove('hidden');
+  document.getElementById('summaryCard').classList.remove('hidden');
+  const n=slots.length;
+  document.getElementById('preschoolMessage').textContent=`${n} waktu Prasekolah berjaya dijana untuk ${day}. Pengganti utama: ${PRESCHOOL_MAIN_SUBSTITUTE}.`;
+}
+function clearPreschool(){document.querySelectorAll('.preschool-slot').forEach(x=>x.checked=false);assignments=assignments.filter(a=>a.type!=='prasekolah');document.getElementById('preschoolMessage').textContent='Pilihan Prasekolah dikosongkan.';renderResults();renderLoad();}
+
+const absent=document.getElementById('absent'); NAMES.forEach(n=>{let o=document.createElement('option');o.value=n;o.textContent=n;absent.appendChild(o)});
+const daySelect=document.getElementById('day'); daySelect.addEventListener('change',()=>renderPreschoolSlots());
+const d=document.getElementById('date'); d.value=new Date().toISOString().slice(0,10); d.addEventListener('change',()=>{autoDay();renderPreschoolSlots();});
+function autoDay(){if(!d.value)return; const x=new Date(d.value+'T00:00:00'); const days=['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu']; const dy=days[x.getDay()]; if(['Isnin','Selasa','Rabu','Khamis','Jumaat'].includes(dy))document.getElementById('day').value=dy;}
+function addAbsent(){const n=absent.value;if(!absents.includes(n))absents.push(n);renderAbsent();}
+function renderAbsent(){document.getElementById('absentList').innerHTML=absents.length?'<b>Guru tidak hadir:</b> '+absents.map((x,i)=>`<span class="pill">${x} <button style="padding:2px 6px;background:#c62828" onclick="removeAbsent(${i})">×</button></span>`).join(''):'<span class="small">Belum ada guru tidak hadir.</span>';}
+function removeAbsent(i){absents.splice(i,1);renderAbsent();}
+function resetDay(){absents=[];assignments=[];renderAbsent();document.getElementById('resultCard').classList.add('hidden');document.getElementById('summaryCard').classList.add('hidden');renderLoad();}
+function eventSlots(t,day){const a=[];(DATA[t]||[]).forEach(e=>{if(e.day===day)for(let s=e.start;s<=e.end;s++)a.push({...e,slot:s})});return a;}
+function ownCount(t,day){return eventSlots(t,day).filter(e=>e.type!=='ph').length;}
+function busy(t,day,slot){return eventSlots(t,day).find(e=>e.slot===slot);}
+const RECOVERY_TEACHER='CIK NURUL SYAFIKAH BINTI ABDULLAH';
+function affected(){const day=document.getElementById('day').value; const out=[]; absents.forEach(t=>{if(t===RECOVERY_TEACHER)return;eventSlots(t,day).forEach(e=>{if(e.type==='ph')return;if(e.type==='koko')return;out.push({teacher:t,...e})})});return out;}
+function candidateScores(day,slot,ignoreIndex=-1){return NAMES.filter(t=>!absents.includes(t)&&t!==PRINCIPAL&&!busy(t,day,slot)&&!assignments.some((a,idx)=>idx!==ignoreIndex&&a.day===day&&a.slot===slot&&a.substitute===t)).map(t=>{const own=ownCount(t,day), given=assignments.filter((a,idx)=>idx!==ignoreIndex&&a.day===day&&a.substitute===t).length; let score=100-own*5-given*25; if(given===0)score+=12; if(own<=4)score+=8; return {teacher:t,own,given,score}}).sort((a,b)=>b.score-a.score||a.own-b.own||a.given-b.given);}
+function scoresForAssignment(a,ignoreIndex=-1){return a.type==='prasekolah'?preschoolCandidateScores(a.day,a.slot,ignoreIndex):candidateScores(a.day,a.slot,ignoreIndex);}
+function renderResults(){const day=document.getElementById('day').value;let html='';assignments.forEach((a,i)=>{const cs=scoresForAssignment(a,i);const opts=[];if(a.substitute==='TIADA PENGGANTIAN')opts.push({teacher:'TIADA PENGGANTIAN',own:0,given:0,score:''});else if(!cs.some(c=>c.teacher===a.substitute))opts.push({teacher:a.substitute,own:ownCount(a.substitute,day),given:assignments.filter((x,j)=>j!==i&&x.day===day&&x.substitute===a.substitute).length});cs.forEach(c=>{if(c.teacher!==a.substitute&&opts.filter(x=>x.teacher!=='TIADA PENGGANTIAN').length<4)opts.push(c)});if(a.substitute!=='TIADA PENGGANTIAN'&&!opts.some(c=>c.teacher==='TIADA PENGGANTIAN'))opts.push({teacher:'TIADA PENGGANTIAN',own:0,given:0,score:''});const given= a.substitute==='TIADA PENGGANTIAN'?0:assignments.filter((x,j)=>j!==i&&x.day===day&&x.substitute===a.substitute).length;const ptime=a.type==='prasekolah'?preschoolTime(day,a.slot):null;const displayTime=ptime?ptime.time:SLOTS[a.slot-1][1];const displayLabel=ptime?ptime.time:`Waktu ${a.slot}`;html+=`<div class="result"><div><b>${a.absent}</b> tidak hadir → <b>${displayTime}</b></div>${a.type!=='prasekolah'?`<div class="small">${a.subject}${a.class?' • '+a.class:''}</div>`:''}<div style="margin-top:8px"><span class="status ok">Guru ganti: ${a.substitute}</span>${a.substitute!=='TIADA PENGGANTIAN'?` • beban sendiri ${ownCount(a.substitute,day)} + ganti ${given}`:''}</div><div style="margin-top:10px"><label style="display:block;font-weight:700;margin-bottom:5px">Tukar guru ganti</label><select class="replacement-select" data-index="${i}" onchange="changeSubstitute(this)">${opts.map(c=>`<option value="${c.teacher.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" ${c.teacher===a.substitute?'selected':''}>${c.teacher}${c.teacher==='TIADA PENGGANTIAN'?'':' — beban '+c.own+' + ganti '+c.given}</option>`).join('')}</select></div><details style="margin-top:8px"><summary>3 pilihan lain</summary>${opts.filter(c=>c.teacher!==a.substitute&&c.teacher!=='TIADA PENGGANTIAN').slice(0,3).map(c=>`<div class="candidate"><span>${c.teacher}<br><span class="small">Beban sendiri ${c.own} • ganti ${c.given}</span></span><span class="score">${c.score??''}</span></div>`).join('')||'<div class="small">Tiada pilihan lain yang sesuai.</div>'}</details></div>`});document.getElementById('results').innerHTML=html;}
+function changeSubstitute(sel){const i=Number(sel.dataset.index), chosen=sel.value, a=assignments[i];if(!a)return;const day=document.getElementById('day').value;if(chosen==='TIADA PENGGANTIAN'){a.substitute=chosen;renderResults();renderLoad();return}const ok=a.type==='prasekolah'?(function(){const p=preschoolTime(day,a.slot);return p&&!absents.includes(chosen)&&chosen!==PRINCIPAL&&!busyAtTime(chosen,day,p.start,p.end)&&!assignments.some((x,j)=>j!==i&&x.day===day&&x.substitute===chosen&&(()=>{const q=assignmentTime(x);return q&&overlaps(p.start,p.end,q.start,q.end)})());})():(!absents.includes(chosen)&&chosen!==PRINCIPAL&&!busy(chosen,day,a.slot)&&!assignments.some((x,j)=>j!==i&&x.day===day&&x.slot===a.slot&&x.substitute===chosen));if(!ok){alert('Guru tersebut tidak boleh dipilih kerana tidak tersedia pada waktu berkenaan.');renderResults();return}a.substitute=chosen;renderResults();renderLoad();}
+function generate(){if(!absents.length){alert('Sila pilih sekurang-kurangnya seorang guru tidak hadir.');return} assignments=[];const day=document.getElementById('day').value;const tasks=affected();
+ if(tasks.length){tasks.forEach(task=>{const cs=candidateScores(day,task.slot);const best=cs[0];assignments.push({day,slot:task.slot,absent:task.teacher,subject:task.subject,class:task.class,type:task.type,substitute:best?best.teacher:'TIADA PENGGANTIAN'});});}
+ renderResults();document.getElementById('resultCard').classList.remove('hidden');renderLoad();const n=tasks.length,g=assignments.length;document.getElementById('summary').innerHTML=`<div class="stat">Kelas/tugas perlu ganti<b>${n}</b></div><div class="stat">Berjaya diagih<b>${g}</b></div><div class="stat">Tidak dapat diagih<b>${n-g}</b></div><div class="stat">Guru tidak hadir<b>${absents.length}</b></div>`;document.getElementById('summaryCard').classList.remove('hidden');}
+function renderKeberadaan(){
+  const stats=document.getElementById('keberadaanStats'), table=document.getElementById('keberadaanTable');
+  if(!stats||!table)return;
+  const total=ALL_PERSONNEL.length;
+  const absentNames=(typeof absents!=='undefined'&&Array.isArray(absents))?absents:[];
+  const notHere=absentNames.length, here=Math.max(0,total-notHere);
+  const pctHere=total?((here/total)*100).toFixed(1):'0.0', pctNot=total?((notHere/total)*100).toFixed(1):'0.0';
+  const reasonCounts={};
+  absentNames.forEach(n=>{const r=(window.getAbsenceReason?window.getAbsenceReason(n):'TANPA KENYATAAN'); reasonCounts[r]=(reasonCounts[r]||0)+1;});
+  stats.innerHTML=`<div class="stat">Jumlah keseluruhan guru<b>${total}</b></div><div class="stat">Berada di sekolah<b>${here} <span class="small">(${pctHere}%)</span></b></div><div class="stat">Tidak berada di sekolah<b>${notHere} <span class="small">(${pctNot}%)</span></b></div><div class="stat">Guru Prasekolah<b>${PRESCHOOL}</b></div>`;
+  let rows=ALL_PERSONNEL.map(n=>{const absent=absentNames.includes(n); const reason=absent?(window.getAbsenceReason?window.getAbsenceReason(n):'TANPA KENYATAAN'):'BERADA DI SEKOLAH'; const cat=n===PRESCHOOL?'Guru Prasekolah':(n===PRINCIPAL?'Guru Besar':'Guru'); return `<tr><td><b>${n}</b></td><td>${cat}</td><td>${absent?'<span class="bad">TIDAK BERADA</span>':'<span class="ok">BERADA</span>'}</td><td>${reason}</td></tr>`}).join('');
+  const reasonRows=Object.entries(reasonCounts).map(([r,c])=>`<tr><td>${r}</td><td>${c}</td></tr>`).join('');
+  table.innerHTML=`<table><thead><tr><th>Nama Guru</th><th>Kategori</th><th>Status Keberadaan</th><th>Alasan</th></tr></thead><tbody>${rows}</tbody></table>${notHere?`<div style="margin-top:12px"><b>Ringkasan alasan ketidakhadiran</b><table style="margin-top:6px"><thead><tr><th>Alasan</th><th>Bilangan</th></tr></thead><tbody>${reasonRows}</tbody></table></div>`:''}`;
+}
+function renderLoad(){const day=document.getElementById('day').value;document.getElementById('loadTable').innerHTML=NAMES.map(t=>{const own=ownCount(t,day), given=assignments.filter(a=>a.day===day&&a.substitute===t).length,total=own+given;const isP=t===PRINCIPAL;return `<tr><td><b>${t}</b>${isP?' <span class="pill">Guru Besar</span>':''}</td><td>${own}</td><td>${given}</td><td><b>${total}</b></td><td>${isP?'<span class="bad">Tidak boleh mengganti</span>':'<span class="ok">Boleh dipertimbang</span>'}</td></tr>`}).join('');}
+document.getElementById('day').addEventListener('change',()=>{assignments=[];renderPreschoolSlots();document.getElementById('resultCard').classList.add('hidden');document.getElementById('summaryCard').classList.add('hidden');renderLoad();renderKeberadaan();});renderAbsent();renderLoad();renderKeberadaan();setInterval(renderKeberadaan,500);renderKeberadaan();
+</script>
+<script>
+(function(){
+  function resultReady(){
+    var out=document.getElementById("out");
+    return !!(out && (out.innerText||"").trim());
+  }
+  function reveal(){
+    var bar=document.getElementById("netlifyPrintBar");
+    if(bar) bar.style.display="block";
+  }
+  function printResult(){
+    if(!resultReady()){
+      alert("Sila jana cadangan guru ganti dahulu.");
+      return;
+    }
+    window.print();
+  }
+  function savePdf(){
+    if(!resultReady()){
+      alert("Sila jana cadangan guru ganti dahulu.");
+      return;
+    }
+    // In a deployed web app this opens the browser print dialog.
+    // Choose "Save as PDF" / "Microsoft Print to PDF".
+    window.print();
+  }
+  document.addEventListener("DOMContentLoaded",function(){
+    var c=document.getElementById("netlifyPrintBtn");
+    var p=document.getElementById("netlifyPdfBtn");
+    if(c) c.addEventListener("click",printResult);
+    if(p) p.addEventListener("click",savePdf);
+
+    var out=document.getElementById("out");
+    if(out){
+      var obs=new MutationObserver(function(){
+        if(resultReady()) reveal();
+      });
+      obs.observe(out,{childList:true,subtree:true,characterData:true});
+      if(resultReady()) reveal();
+    }
+  });
+})();
+</script>
+
+<script id="print-toolbar-js">
+(function(){
+  function outEl(){ return document.getElementById("out"); }
+  function ready(){
+    var o=outEl();
+    return o && (o.innerText||"").trim().length>0;
+  }
+  function show(){
+    var b=document.getElementById("printToolbar");
+    if(b) b.style.display="flex";
+  }
+  function doPrint(){
+    if(!ready()){ alert("Sila jana cadangan guru ganti dahulu."); return; }
+    window.print();
+  }
+  function doPDF(){
+    if(!ready()){ alert("Sila jana cadangan guru ganti dahulu."); return; }
+    window.print();
+  }
+  function init(){
+    var p=document.getElementById("btnPrint");
+    var s=document.getElementById("btnSavePDF");
+    if(p) p.onclick=doPrint;
+    if(s) s.onclick=doPDF;
+    var o=outEl();
+    if(o){
+      var obs=new MutationObserver(function(){ if(ready()) show(); });
+      obs.observe(o,{childList:true,subtree:true,characterData:true});
+      if(ready()) show();
+    }
+    // Also catch the common case where the app replaces result HTML.
+    setInterval(function(){ if(ready()) show(); },500);
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init);
+  else init();
+})();
+</script>
+
+<script id="guru-ganti-print-js">
+(function(){
+  function resultsBox(){ return document.getElementById("results"); }
+  function hasResult(){
+    var r = resultsBox();
+    return !!(r && (r.innerText || "").trim().length);
+  }
+  function reveal(){
+    var bar = document.getElementById("guruGantiPrintToolbar");
+    if(bar) bar.style.display = "block";
+  }
+  function printPage(){
+    if(!hasResult()){
+      alert("Sila jana cadangan guru ganti dahulu.");
+      return;
+    }
+    window.print();
+  }
+  function init(){
+    var printBtn = document.getElementById("guruGantiPrint");
+    var pdfBtn = document.getElementById("guruGantiPDF");
+    if(printBtn) printBtn.addEventListener("click", printPage);
+    if(pdfBtn) pdfBtn.addEventListener("click", printPage);
+
+    var r = resultsBox();
+    if(r){
+      var observer = new MutationObserver(function(){
+        if(hasResult()) reveal();
+      });
+      observer.observe(r, {childList:true, subtree:true, characterData:true});
+    }
+    setInterval(function(){ if(hasResult()) reveal(); }, 500);
+  }
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+
+
+
+
+
+
+
+
+<div id="guruGantiPrintTemplate" aria-hidden="true">
+  <div class="replacement-print-page">
+    <div class="rp-head">
+      <img src="logo-sekolah.png" alt="Logo SK Felda Jengka 6" class="rp-logo">
+      <div class="rp-head-text">
+        <div class="rp-school">SEKOLAH KEBANGSAAN FELDA JENGKA 6</div>
+        <div class="rp-school-sub">MAJU KE MUKA</div>
+      </div>
+    </div>
+    <div class="rp-title">PENGGANTIAN GURU</div>
+    <div class="rp-date" id="rpDate"></div>
+    <div class="rp-note" id="rpNote"></div>
+    <table class="rp-table">
+      <thead><tr>
+        <th>Guru Tidak Hadir</th><th>Subjek</th><th>Kelas</th><th>Waktu</th>
+        <th>Alasan</th><th>Guru Ganti</th><th>Tandatangan</th>
+      </tr></thead>
+      <tbody id="rpBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script id="final-print-js">
+(function(){
+  var times={1:"7:45–8:15",2:"8:15–8:45",3:"8:45–9:15",4:"9:15–9:45",5:"9:45–10:15",6:"10:15–10:35",7:"10:35–11:05",8:"11:05–11:35",9:"11:35–12:05",10:"12:05–12:35",11:"12:35–1:05",12:"1:05–1:35",13:"1:35–2:05"};
+  var months=["Januari","Februari","Mac","April","Mei","Jun","Julai","Ogos","September","Oktober","November","Disember"];
+  function E(id){return document.getElementById(id)}
+  function dtext(v){var a=(v||"").split("-");return a.length===3?(+a[2]+" "+months[+a[1]-1]+" "+a[0]):v||""}
+  function getAssignments(){
+    try { if(typeof assignments!=="undefined" && Array.isArray(assignments)) return assignments; } catch(e){}
+    return [];
+  }
+  function build(){
+    var data=getAssignments(), body=E("rpBody");
+    if(!body || !data.length) return false;
+    body.innerHTML="";
+    var absent=[];
+    data.forEach(function(a){
+      if(a.absent && absent.indexOf(a.absent)<0) absent.push(a.absent);
+      var tr=document.createElement("tr");
+      [
+        a.absent||"",a.type==="prasekolah"?"":(a.subject||""),a.type==="prasekolah"?"":(a.class||""),
+        (a.type==="prasekolah" && typeof preschoolTime==="function" && preschoolTime(a.day,a.slot) ? preschoolTime(a.day,a.slot).time : "Waktu "+(a.slot||"")+" ("+(times[a.slot]||"")+")"),
+        (a.reason||((window.getAbsenceReason&&window.getAbsenceReason(a.absent))||"TANPA KENYATAAN")),a.substitute||"",""
+      ].forEach(function(v){var td=document.createElement("td");td.textContent=v;tr.appendChild(td)});
+      body.appendChild(tr);
+    });
+    var day=E("day"), date=E("date");
+    E("rpDate").textContent=(day?(day.value||"").toUpperCase():"")+" • "+dtext(date?date.value:"");
+    E("rpNote").textContent="GURU TIDAK HADIR: "+absent.join(", ");
+    return true;
+  }
+  function printNow(){
+    if(!build()){alert("Sila jana cadangan guru ganti dahulu.");return}
+    var t=E("guruGantiPrintTemplate");
+    t.style.display="block";
+    window.print();
+    setTimeout(function(){t.style.display="none"},1000);
+  }
+  function init(){
+    var p=E("guruGantiPrint"), s=E("guruGantiPDF");
+    if(p)p.onclick=printNow;
+    if(s)s.onclick=printNow;
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();
+</script>
+
+<script id="absence-reason-js">
+(function(){
+  const REASONS=["CTR","CRK","BEKERJA DARI RUMAH","BENGKEL","BERTUGAS DALAM KOKURIKULUM/KOAKADEMIK/SUKAN","COVID-19","CUTI BERSALIN","CUTI HAJI","CUTI KECEDERAAN","CUTI KECEMASAN AM","CUTI KUARANTIN","CUTI KURSUS SAMBILAN (PJJ)","CUTI KURSUS/BELAJAR","CUTI MENJAGA ANAK (CUTI TANPA GAJI)","CUTI REHAT","CUTI REHAT KHAS","CUTI SAKIT","CUTI SAKIT LANJUTAN","CUTI SEPARUH GAJI","CUTI TANPA GAJI","CUTI TANPA GAJI IKUT PASANGAN","CUTI TANPA REKOD","CUTI TIBI,KUSTA DAN BARAH","CUTI UMRAH","KURSUS","MESYUARAT","PENGAWAS PEPERIKSAAN","PROSES PEMULIHAN DI JPN","PROSES PEMULIHAN DI PPD","TAHAN/GANTUNG KERJA ( TATATERTIB )","TAKLIMAT","TANPA KENYATAAN","TUGAS RASMI-SEPERTI YANG DIARAHKAN OLEH PENTADBIRAN SEKOLAH/PPD/JPN/KPM","PROGRAM PPD/JPN","PEPERIKSAAN"];
+  const reasonMap={};
+  let lastKey="";
+  const pr=document.getElementById("preschoolReason");
+  if(pr){ pr.innerHTML=REASONS.map(r=>`<option>${r}</option>`).join(""); pr.value="CTR"; }
+
+  function getAbsentNames(){
+    try{
+      if(typeof absents!=="undefined" && Array.isArray(absents)) return absents.slice();
+    }catch(e){}
+    return [];
+  }
+
+  function render(force){
+    const box=document.getElementById("absenceReasonRows");
+    if(!box) return;
+
+    const names=getAbsentNames();
+    const key=names.join("|");
+
+    // Jangan bina semula dropdown jika senarai guru tidak berubah.
+    // Ini penting supaya dropdown tidak tertutup ketika pengguna sedang memilih.
+    if(!force && key===lastKey) return;
+    lastKey=key;
+
+    if(!names.length){
+      box.innerHTML='<div style="color:#64748b">Pilih guru tidak hadir dahulu.</div>';
+      return;
+    }
+
+    box.innerHTML="";
+    names.forEach(function(name){
+      const row=document.createElement("div");
+      row.className="absence-reason-row";
+
+      const label=document.createElement("div");
+      label.className="absence-reason-name";
+      label.textContent=name;
+
+      const sel=document.createElement("select");
+      sel.className="absence-reason-select";
+      sel.dataset.teacher=name;
+
+      REASONS.forEach(function(r){
+        const o=document.createElement("option");
+        o.value=r;
+        o.textContent=r;
+        sel.appendChild(o);
+      });
+
+      sel.value=reasonMap[name] || "CTR";
+      sel.addEventListener("change",function(){
+        reasonMap[name]=sel.value; renderKeberadaan();
+      });
+
+      row.appendChild(label);
+      row.appendChild(sel);
+      box.appendChild(row);
+    });
+  }
+
+  window.getAbsenceReason=function(name){
+    return reasonMap[name] || "CTR";
+  };
+  window.renderAbsenceReasons=function(){render(true)};
+
+  function init(){
+    render(true);
+
+    const absentSelect=document.getElementById("absent");
+    if(absentSelect){
+      absentSelect.addEventListener("change",function(){
+        setTimeout(function(){render(true)},50);
+      });
+    }
+
+    // Pantau perubahan senarai guru tidak hadir tanpa menyentuh dropdown
+    // apabila pengguna sedang memilih alasan.
+    const observer=new MutationObserver(function(){
+      const names=getAbsentNames();
+      const key=names.join("|");
+      if(key!==lastKey) render(true);
+    });
+    observer.observe(document.body,{childList:true,subtree:true});
+  }
+
+  if(document.readyState==="loading")
+    document.addEventListener("DOMContentLoaded",init);
+  else
+    init();
+})();
+</script>
+
+
+
+<script id="single-teacher-list-script">
+(function(){
+  function sortSingleList(){
+    document.querySelectorAll("select").forEach(function(s){
+      var opts=Array.from(s.options);
+      var teacherOpts=opts.filter(function(o){
+        var t=(o.textContent||"").trim();
+        return /^(EN|PN|CIK)\s+/i.test(t);
+      });
+      if(teacherOpts.length<2) return;
+      var selected=s.value;
+      teacherOpts.sort(function(a,b){
+        return (a.textContent||"").trim().localeCompare((b.textContent||"").trim(),"ms");
+      });
+      teacherOpts.forEach(function(o){s.appendChild(o)});
+      s.value=selected;
+    });
+  }
+  if(document.readyState==="loading")
+    document.addEventListener("DOMContentLoaded",function(){setTimeout(sortSingleList,100)});
+  else
+    setTimeout(sortSingleList,100);
+})();
+</script>
+</body></html>
