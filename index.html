@@ -125,13 +125,8 @@ const PRESCHOOL="PN RAHAYU BINTI MD YUSUFF";
 const ALL_PERSONNEL=[...NAMES,PRESCHOOL];
 const PRESCHOOL_MAIN_SUBSTITUTE="PN ZAHIDA BINTI ZAKARIA";
 const SCHOOL_RANGES={1:[465,495],2:[495,525],3:[525,555],4:[555,585],5:[585,615],6:[615,635],7:[635,665],8:[665,695],9:[695,725],10:[725,755],11:[755,785],12:[785,815],13:[815,845]};
-const PRESCHOOL_SCHEDULE={
-  Isnin:[['1','8:00–8:20',480,500,'PERBUALAN AWAL'],['2','8:20–8:50',500,530,'FIZIKAL'],['3','8:50–9:50',530,590,'AP'],['4','9:50–10:30',590,630,'REHAT'],['5','10:30–11:30',630,690,'PENDIDIKAN ISLAM'],['6','11:30–11:50',690,710,'AP'],['7','11:50–12:00',710,720,'PENUTUP']],
-  Selasa:[['1','8:00–8:20',480,500,'PERBUALAN AWAL'],['2','8:20–8:50',500,530,'FIZIKAL'],['3','8:50–9:20',530,560,'BM'],['4','9:20–9:50',560,590,'AP'],['5','9:50–10:30',590,630,'REHAT'],['6','10:30–11:00',630,660,'BACA BERSAMA'],['7','11:00–11:50',660,710,'MATH'],['8','11:50–12:00',710,720,'PENUTUP']],
-  Rabu:[['1','8:00–8:20',480,500,'PERBUALAN AWAL'],['2','8:20–8:50',500,530,'FIZIKAL'],['3','8:50–9:20',530,560,'BM'],['4','9:20–9:50',560,590,'AP'],['5','9:50–10:30',590,630,'REHAT'],['6','10:30–11:30',630,690,'PENDIDIKAN ISLAM'],['7','11:30–11:50',690,710,'AP'],['8','11:50–12:00',710,720,'PENUTUP']],
-  Khamis:[['1','8:00–8:20',480,500,'PERBUALAN AWAL'],['2','8:20–8:50',500,530,'FIZIKAL'],['3','8:50–9:50',530,590,'AP'],['4','9:50–10:30',590,630,'REHAT'],['5','10:30–11:00',630,660,'BM'],['6','11:00–11:50',660,710,'AP'],['7','11:50–12:00',710,720,'PENUTUP']],
-  Jumaat:[['1','8:00–8:20',480,500,'PERBUALAN AWAL'],['2','8:20–8:50',500,530,'FIZIKAL'],['3','8:50–9:50',530,590,'AP'],['4','9:50–10:30',590,630,'REHAT'],['5','10:30–11:00',630,660,'BM'],['6','11:00–11:50',660,710,'BI'],['7','11:50–12:00',710,720,'PENUTUP']]
-};
+const PRESCHOOL_STATIC_SCHEDULE=[['1','8:00–8:20',480,500,'PERBUALAN AWAL'],['2','8:20–8:50',500,530,'FIZIKAL'],['3','8:50–9:20',530,560,'AP'],['4','9:20–9:50',560,590,'AP'],['5','9:50–10:30',590,630,'REHAT'],['6','10:30–11:00',630,660,'PENDIDIKAN ISLAM'],['7','11:00–11:30',660,690,'PENDIDIKAN ISLAM'],['8','11:30–11:50',690,710,'AP'],['9','11:50–12:00',710,720,'PENUTUP']];
+const PRESCHOOL_SCHEDULE={Isnin:PRESCHOOL_STATIC_SCHEDULE,Selasa:PRESCHOOL_STATIC_SCHEDULE,Rabu:PRESCHOOL_STATIC_SCHEDULE,Khamis:PRESCHOOL_STATIC_SCHEDULE,Jumaat:PRESCHOOL_STATIC_SCHEDULE};
 let preschoolReason="CTR";
 const ps=document.getElementById('preschoolSlots');
 function renderPreschoolSlots(){if(!ps)return; const day=document.getElementById('day').value; const rows=PRESCHOOL_SCHEDULE[day]||[]; ps.innerHTML=rows.map(x=>{const isRest=x[4]==='REHAT';const label=document.createElement('label');label.style.cssText='display:flex;align-items:center;gap:7px;padding:8px;border:1px solid #dbe3ef;border-radius:8px;background:'+(isRest?'#f1f5f9':'#fff')+';'+(isRest?'color:#64748b;':'');label.innerHTML=`<input type="checkbox" class="preschool-slot" value="${x[0]}" ${isRest?'disabled':''}> <span><b>${x[1]}</b>${isRest?' — REHAT':''}</span>`;return label.outerHTML}).join('');}
